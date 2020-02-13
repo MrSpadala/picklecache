@@ -2,7 +2,7 @@
 Run some tests
 """
 
-from pack import cache
+from picklecache import cache
 import os
 
 

@@ -2,7 +2,7 @@
 Run some tests
 """
 
-from picklecache import cache
+from pklcache import cache
 import os
 
 

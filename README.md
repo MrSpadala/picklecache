@@ -1,13 +1,13 @@
 
-# picklecache
+# pklcache
 
-Quick and *dirty* caching of function results on disk using `pickle`.
+The name stands for pickle cache, and it is a quick and *dirty* way of caching function results on disk using `pickle`.
 
 This can be helpful for example in some machine learning tasks, where you have to preprocess the data with many time-consuming steps, and you want to not recompute things every time you run your program. 
 
 ### Example
 ```
-from picklecache import cache
+from pklcache import cache
 
 @cache("foo_cache.pkl")
 def foo(args):

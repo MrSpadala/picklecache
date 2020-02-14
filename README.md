@@ -31,3 +31,8 @@ The first time `foo` is called its result is saved on disk on `foo_cache.pkl`. I
 `@cache(fpath, enabled=True)`
 - `fpath`: is the cache file path
 - `enabled`: if `False` the store/load is disabled and the function is executed like if it wasn't decorated. Useful during development and debugging.  
+
+### Install
+` pip install pklcache`
+
+If you don't want an external dependency just copy and paste the code in [\_\_init\_\_.py](pklcache/__init__.py)

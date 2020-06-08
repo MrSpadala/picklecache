@@ -21,7 +21,7 @@ def cleanup(func):
 
 @cleanup
 def test1():
-    @cache(fname)
+    @cache(fname, arg_check=True)
     def foo():
         ret = [(69,96), "who cares about types", 42, [4,2,0]]
         return ret
@@ -48,12 +48,29 @@ def test2():
     print("Test 2: OK")
 
 
+@cleanup
+def test3():
+    @cache(fname, arg_check=True)
+    def foo(a,b,c=34,d=34):
+        return (a,b,c,d)
+    @cache(fname, arg_check=False)
+    def foo1(a,b,c=34,d=34):
+        return (a,b,c,d)
+    ret1 = foo(12,65,d=56)
+    ret2 = foo(23,12,c=8)
+    ret3 = foo1(23,2000,c=1000)
+    assert(ret1 != ret2)
+    print(ret1, ret2, ret3)
+    print("Test 3: OK")
+
+
 if __name__ == '__main__':
 
     test1()
 
     test2()
 
+    test3()
 
 
 

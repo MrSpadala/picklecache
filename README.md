@@ -9,11 +9,12 @@ This can be helpful for example in some machine learning tasks, where you have t
 ```
 from pklcache import cache
 
-@cache("foo_cache.pkl")
-def foo(args):
+@cache("foo_result.pkl")
+def foo(*args, **kwargs):
     # time consuming operations here...
     return result
 ```
+
 If you run the program
 ```
 result = foo()  #foo executed

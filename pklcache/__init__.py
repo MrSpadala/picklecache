@@ -23,7 +23,6 @@ import os
 import pickle
 import functools
 
-MAGIC = "PKLCACHE-whocaresabouttypes"
 
 def cache(fpath, arg_check=False, enabled=True):
     """
@@ -39,17 +38,43 @@ def cache(fpath, arg_check=False, enabled=True):
 
     Example:
         @cache("foo-result.pickle")
-        def foo(args):
+        def foo_decorated(args):
             ...
             return result
+
+    Dynamically disable of caching can't be done with `enabled` argument,
+    since it can be only set once when decorating the function.
+    To make enabling/disabling possible at runtime, the decorated function
+    exposes an additional keyword argument named "pklcache_enable" which
+    can be set to True/False to enable/disable caching.
+
+    Example:
+        foo_decorated(42, ...)   #cached
+        foo_decorated(42, ..., pklcache_enable=False)  #not cached
+
+    If "pklcache_enable" kwarg is used, it is removed from kwargs before
+    calling the function, to not alter its semantics.
     """
+
+    MAGIC = "PKLCACHE-whocaresabouttypes"
+    FUNC_ENABLE_KWARG = "pklcache_enable"
 
     def decorator(func):
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            # Decorated functions accept an additional kwarg to enable/disable the
+            # caching dynamically. Otherwise the enabling/disabling is only possible
+            # via the `enabled` argument of `cache`, which once set cannot be modified.
+            # This dynamic enable has priority over static enable
+            dynamic_set = False
+            if FUNC_ENABLE_KWARG in kwargs:
+                dynamic_set = True
+                dynamic_enable = bool(kwargs[FUNC_ENABLE_KWARG])
+                del kwargs[FUNC_ENABLE_KWARG]
+
             # If not enabled execute func and return
-            if not enabled:
+            if (dynamic_set and not dynamic_enable) or (not dynamic_set and not enabled):
                 return func(*args, **kwargs)
 
             # Check if cache file is present. If yes load its contents

@@ -74,3 +74,14 @@ if __name__ == '__main__':
 
 
 
+"""
+
+@cache("merda.sdpl")
+def cazzo(er,ar):
+    return er+ar
+
+print(cazzo(23,9))
+print(cazzo(456,213))
+print(cazzo(3412,874,pklcache_enable=False))
+
+"""

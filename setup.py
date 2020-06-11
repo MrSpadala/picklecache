@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pklcache",
-    version="0.2",
+    version="0.3",
     author="Pietro Spadaccino",
     description="Quick and dirty caching of function results on disk using pickle",
     long_description=long_description,

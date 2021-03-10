@@ -93,7 +93,7 @@ def cache(fpath, arg_check=False, enabled=True):
                 if not arg_check or (is_cached_tuple and cached[1] == args and
                         cached[2] == kwargs):
                     
-                    print("'{}' not executed, result loaded from disk".format(func.__name__))
+                    print("[*] '{}' not executed, result loaded from disk".format(func.__name__))
                     return cached[0] if is_cached_tuple else cached
 
 

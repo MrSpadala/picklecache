@@ -18,12 +18,6 @@ __version__ = "0.3"
 __author__ = "Pietro Spadaccino"
 
 
-
-import os
-import pickle
-import functools
-
-
 def cache(fpath, arg_check=False, enabled=True):
     """
     Decorator caching on file `fpath` the result of a function using pickle.
@@ -55,9 +49,13 @@ def cache(fpath, arg_check=False, enabled=True):
     If "pklcache_enable" kwarg is used, it is removed from kwargs before
     calling the function, to not alter its semantics.
     """
+    
+    import os
+    import pickle
+    import functools
 
     MAGIC = "PKLCACHE-whocaresabouttypes"
-    FUNC_ENABLE_KWARG = "pklcache_enable"
+    FUNC_ENABLE_KWARG = "__pklcache_enable"
 
     def decorator(func):
 

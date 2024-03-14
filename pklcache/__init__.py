@@ -18,7 +18,7 @@ __version__ = "0.3"
 __author__ = "Pietro Spadaccino"
 
 
-def cache(fpath, arg_check=False, enabled=True):
+def cache(fpath, enabled=True, verbose=True, arg_check=False):
     """
     Decorator caching on file `fpath` the result of a function using pickle.
 
@@ -90,8 +90,8 @@ def cache(fpath, arg_check=False, enabled=True):
                         cached[3] == MAGIC)
                 if not arg_check or (is_cached_tuple and cached[1] == args and
                         cached[2] == kwargs):
-                    
-                    print("[*] '{}' not executed, result loaded from disk".format(func.__name__))
+                    if verbose:
+                        print("[pklcache] '{}' not executed, result loaded from disk".format(func.__name__))
                     return cached[0] if is_cached_tuple else cached
 
 
@@ -102,8 +102,8 @@ def cache(fpath, arg_check=False, enabled=True):
             try:
                 pickle.dump(to_cache, open(fpath, "wb"))
             except Exception as e:
-                print("Exception", e.__class__, "occurred while caching",func.__name__ ,"result")
-                print("Trying to not save arguments...")
+                print("[pklcache] Exception", e.__class__, "occurred while caching",func.__name__ ,"result")
+                print("[pklcache] Trying to not save arguments. Try with arg_check=False")
                 pickle.dump(result, open(fpath, "wb"))
 
             return result
